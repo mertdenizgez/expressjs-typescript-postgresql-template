@@ -1,9 +1,10 @@
 import userService from "../services/user.service";
 import { Request, Response } from "express";
+import "express-async-errors";
 
 async function getUsers(_request: Request, response: Response) {
   const users = await userService.getUsers();
-  response.status(200).json(users);
+  return response.status(200).json(users);
 }
 
 async function getUserWithBorrowHistory(request: Request, response: Response) {
@@ -26,16 +27,9 @@ async function createUser(request: Request, response: Response) {
 
 async function borrowBook(request: Request, response: Response) {
   const { userId, bookId } = request.params;
-  try {
-    await userService.borrowBook(parseInt(userId), parseInt(bookId));
-  } catch (error) {
-    if (error.message === "There is no record for this query") {
-      return response.status(400).send("Bad request");
-    }
-    if (error.message === "This book already possesed") {
-      return response.status(400).send("This book already possesed");
-    }
-  }
+
+  await userService.borrowBook(parseInt(userId), parseInt(bookId));
+
   return response.status(200).send();
 }
 

@@ -1,3 +1,4 @@
+import { ErrorCodes } from "../middlewares/errorCodes";
 import { BookPossessionRepository } from "../models/book-possession.repository";
 
 export async function getPossesedBooksByUserId(userId: number) {
@@ -28,7 +29,7 @@ export async function barrowBook(userId: number, bookId: number) {
     isAlreadyPossesed.length > 0 &&
     !isAlreadyPossesed[0].isReturned
   ) {
-    throw new Error("This book already possesed");
+    throw new Error(ErrorCodes.ALREADY_BARROWED);
   }
 
   const bookPossession = await BookPossessionRepository.build({
@@ -42,7 +43,7 @@ export async function barrowBook(userId: number, bookId: number) {
 export async function returnBook(userId: number, bookId: number) {
   const bookPossesion = await getPossesedBooksByUserIdAndBookId(userId, bookId);
   if (!bookPossesion || bookPossesion.length <= 0) {
-    throw new Error("There is no record for this query");
+    throw new Error(ErrorCodes.DATA_NOT_EXISTS);
   }
   await BookPossessionRepository.update(
     { isReturned: true },

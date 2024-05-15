@@ -2,6 +2,7 @@ import { UserRepository } from "../models/user.repository";
 import BookPossesionService from "./book-possession.service";
 import ScoreService from "./score.service";
 import BookService from "./book.service";
+import { ErrorCodes } from "../middlewares/errorCodes";
 
 async function getUsers() {
   const users = await UserRepository.findAll();
@@ -12,7 +13,7 @@ async function getUserById(userId: number) {
   const user = await UserRepository.findByPk(userId);
 
   if (!user) {
-    throw new Error("User not exists");
+    throw new Error(ErrorCodes.USER_NOT_EXISTS);
   }
 
   const borrowedBooks =
@@ -54,11 +55,11 @@ async function createUser(name: string) {
 async function borrowBook(userId: number, bookId: number) {
   const user = await getUserById(userId);
   if (!user) {
-    throw new Error("There is no record for this query");
+    throw new Error(ErrorCodes.USER_NOT_EXISTS);
   }
   const book = await BookService.getBookById(bookId);
   if (!book) {
-    throw new Error("There is no record for this query");
+    throw new Error(ErrorCodes.BOOK_NOT_EXISTS);
   }
   await BookPossesionService.barrowBook(userId, bookId);
 }

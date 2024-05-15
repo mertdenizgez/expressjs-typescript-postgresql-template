@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 
 import routes from "./routes/index";
 import { initDB, syncDB } from "./utils/database";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 const port = 3000;
@@ -14,12 +15,13 @@ app.use(
   }),
 );
 app.use(routes);
-
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
 
 initDB();
 syncDB();
+
+app.use(errorHandler);
 
 export default app;

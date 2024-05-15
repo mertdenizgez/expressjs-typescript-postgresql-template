@@ -1,4 +1,5 @@
 import { BookRepository } from "../models/book.repository";
+import ScoreService from "./score.service";
 
 async function createBook(bookname: string) {
   const book = BookRepository.build({ name: bookname });
@@ -10,13 +11,24 @@ async function getBooks() {
   return books;
 }
 
-async function getBookByIdWithAvgScore(bookId: string) {
+async function getBookById(bookId: number) {
+  return await BookRepository.findByPk(bookId);
+}
+
+async function getBookByIdWithAvgScore(bookId: number) {
   const book = await BookRepository.findByPk(bookId);
-  return book;
+  if (!book) {
+    throw Error("Book not found for given bookId");
+  }
+
+  const score = await ScoreService.getScoreByBookId(bookId);
+
+  return { ...book.dataValues, score: score ? score.dataValues.avgScore : -1 };
 }
 
 export default {
   createBook,
   getBooks,
   getBookByIdWithAvgScore,
+  getBookById,
 };

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import sequlize from "../utils/database";
+import { getDBObject } from "../utils/database";
 
-export const UserRepository = sequlize.sequelize.define(
+export const UserRepository = getDBObject().define(
   "Users",
   {
     name: {

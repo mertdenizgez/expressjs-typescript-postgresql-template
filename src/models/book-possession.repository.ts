@@ -3,8 +3,8 @@ import { getDBObject } from "../utils/database";
 import { BookRepository } from "./book.repository";
 import { UserRepository } from "./user.repository";
 
-export const ScoreRepository = getDBObject().define(
-  "Score",
+export const BookPossessionRepository = getDBObject().define(
+  "BookPossession",
   {
     bookId: {
       type: DataTypes.INTEGER,
@@ -22,14 +22,14 @@ export const ScoreRepository = getDBObject().define(
         key: "id",
       },
     },
-    score: {
-      type: DataTypes.INTEGER,
+    isReturned: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
   },
   {
-    tableName: "Score",
+    tableName: "BookPossession",
   },
 );
 
-export default { ScoreRepository };
+export default { BookPossessionRepository };

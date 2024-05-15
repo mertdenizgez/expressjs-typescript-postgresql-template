@@ -1,26 +1,46 @@
+import { Sequelize } from "sequelize";
 import { ScoreRepository } from "../models/score.repository";
 
-async function getScoreByBookId(bookId: number) {
-  const score = await ScoreRepository.findOne({ where: { bookId } });
+async function getAverageScoreByBookId(bookId: number) {
+  const score = await ScoreRepository.findOne({
+    where: { bookId },
+    attributes: [[Sequelize.fn("AVG", Sequelize.col("score")), "avgScore"]],
+    group: ["bookId"],
+  });
   return score;
 }
 
 async function getScoreByUserId(userId: number) {
-  const score = await ScoreRepository.findOne({ where: { userId } });
+  const score = await ScoreRepository.findOne({
+    where: { userId },
+  });
   return score;
 }
 
-async function createScore(userId: number, bookId: number, userRating: number) {
-  const score = await ScoreRepository.build({
+async function getScoreByUserIdAndBookId(userId: number, bookId: number) {
+  const score = await ScoreRepository.findOne({
+    where: { userId, bookId },
+  });
+  return score;
+}
+
+async function createScore(userId: number, bookId: number, score: number) {
+  const userScore = await ScoreRepository.build({
     userId,
     bookId,
-    score: userRating,
+    score,
   });
-  score.save();
+  userScore.save();
+}
+
+async function updateScore(userId: number, bookId: number, score: number) {
+  await ScoreRepository.update({ score }, { where: { userId, bookId } });
 }
 
 export default {
-  getScoreByBookId,
+  getScoreByBookId: getAverageScoreByBookId,
   getScoreByUserId,
   createScore,
+  getScoreByUserIdAndBookId,
+  updateScore,
 };

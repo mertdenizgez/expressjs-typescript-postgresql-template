@@ -3,21 +3,23 @@ import bookService from "../services/book.service";
 
 async function createBook(request: Request, response: Response) {
   const bookname = request.body.name;
-
   const book = await bookService.createBook(bookname);
-
   response.status(200).json(book);
 }
 
-async function getBooks(request: Request, response: Response) {
+async function getBooks(_request: Request, response: Response) {
   const books = await bookService.getBooks();
   response.status(200).json(books);
 }
 
 async function getBookByIdWithAvgScore(request: Request, response: Response) {
   const bookId = request.params.bookId;
-  const book = await bookService.getBookByIdWithAvgScore(bookId);
-  response.status(200).json(book);
+  try {
+    const book = await bookService.getBookByIdWithAvgScore(parseInt(bookId));
+    return response.status(200).json(book);
+  } catch (error) {
+    return response.status(400).send("Bad request");
+  }
 }
 
 export default {

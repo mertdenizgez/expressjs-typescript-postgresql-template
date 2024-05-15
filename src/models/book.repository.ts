@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import sequlize from "../utils/database";
+import { getDBObject } from "../utils/database";
 
-export const BookRepository = sequlize.sequelize.define(
+export const BookRepository = getDBObject().define(
   "Books",
   {
     name: {

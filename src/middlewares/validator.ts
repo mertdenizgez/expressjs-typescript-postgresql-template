@@ -4,6 +4,9 @@ interface Schema {
   body?: {
     validate: (data: any) => { error: any };
   };
+  params?: {
+    validate: (data: any) => { error: any };
+  };
 }
 
 interface ValidationResult {

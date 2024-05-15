@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import routes from "./routes/index";
-import { initDB } from "./utils/database";
+import { initDB, syncDB } from "./utils/database";
 
 const app = express();
 const port = 3000;
@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 app.use(routes);
 
@@ -20,5 +20,6 @@ app.listen(port, () => {
 });
 
 initDB();
+syncDB();
 
 export default app;

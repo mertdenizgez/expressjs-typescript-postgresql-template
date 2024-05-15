@@ -15,9 +15,9 @@ function getUserById(request: Request, response: Response) {
 }
 
 function createUser(request, response) {
-  const { name, email } = request.body;
+  const { name } = request.body;
 
-  const result = userService.createUser(name, email);
+  const result = userService.createUser(name);
   response.status(201).send(`${result}`);
 }
 

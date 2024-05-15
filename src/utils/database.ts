@@ -1,11 +1,11 @@
 import { Sequelize } from "sequelize";
 
-export async function initDB() {
-  const sequelize = new Sequelize("api", "me", "password", {
-    host: "localhost",
-    dialect: "postgres",
-  });
+export const sequelize = new Sequelize("api", "me", "password", {
+  host: "localhost",
+  dialect: "postgres",
+});
 
+export async function initDB() {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
@@ -14,4 +14,8 @@ export async function initDB() {
   }
 }
 
-export default { initDB };
+export async function syncDB() {
+  await sequelize.sync();
+}
+
+export default { initDB, sequelize };

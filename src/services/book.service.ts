@@ -1,11 +1,22 @@
-function createBook() {}
+import { BookRepository } from "../models/book.repository";
 
-function getBook() {}
+async function createBook(bookname: string) {
+  const book = BookRepository.build({ name: bookname });
+  await book.save();
+}
 
-function getBookWithAvgScore() {}
+async function getBooks() {
+  const books = await BookRepository.findAll();
+  return books;
+}
+
+async function getBookByIdWithAvgScore(bookId: string) {
+  const book = await BookRepository.findByPk(bookId);
+  return book;
+}
 
 export default {
   createBook,
-  getBook,
-  getBookWithAvgScore,
+  getBooks,
+  getBookByIdWithAvgScore,
 };

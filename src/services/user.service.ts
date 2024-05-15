@@ -1,38 +1,18 @@
-import pool from "../utils/postgres";
+import { UserRepository } from "../models/user.repository";
 
-function getUsers() {
-  pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
-    if (error) {
-      throw error;
-    }
-    return results.rows;
-  });
+async function getUsers() {
+  const users = await UserRepository.findAll();
+  return users;
 }
 
-function getUserById(userId: number) {
-  pool.query(
-    "SELECT * FROM users WHERE id = $1",
-    [userId],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      return results.rows;
-    },
-  );
+async function getUserById(userId: number) {
+  const user = await UserRepository.findByPk(userId);
+  return user;
 }
 
-function createUser(name: string, email: string) {
-  pool.query(
-    "INSERT INTO users (name, email) VALUES ($1, $2)",
-    [name, email],
-    (error) => {
-      if (error) {
-        throw error;
-      }
-      return "User added";
-    },
-  );
+async function createUser(name: string) {
+  const user = UserRepository.build({ name });
+  await user.save();
 }
 
 function borrowBook() {}

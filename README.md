@@ -1,6 +1,6 @@
 # Rest API for Gtr Record API
 
-A rest api application for retrieve data from Postgres by using Node.js, Express, and Sequelize.
+A rest api application for retrieve data from Postgres by using Node.js, Express, Typescript and Sequelize.
 
 Mert Denizgez
 

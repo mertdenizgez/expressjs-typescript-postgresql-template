@@ -1,5 +1,5 @@
 import { BookRepository } from "../models/book.repository";
-import ScoreService from "./score.service";
+import { ScoreService } from "./index";
 
 async function createBook(bookname: string) {
   const book = BookRepository.build({ name: bookname });
@@ -23,7 +23,10 @@ async function getBookByIdWithAvgScore(bookId: number) {
 
   const score = await ScoreService.getScoreByBookId(bookId);
 
-  return { ...book.dataValues, score: score ? score.dataValues.avgScore : -1 };
+  return {
+    ...book.dataValues,
+    score: score ? parseInt(score.dataValues.avgScore) : -1,
+  };
 }
 
 export default {

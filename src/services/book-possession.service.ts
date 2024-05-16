@@ -1,23 +1,23 @@
-import { ErrorCodes } from "../middlewares/errorCodes";
+import { ErrorCodes } from "../middlewares/error-codes";
 import { BookPossessionRepository } from "../models/book-possession.repository";
 
-export async function getPossesedBooksByUserId(userId: number) {
+async function getPossesedBooksByUserId(userId: number) {
   const bookPossession = await BookPossessionRepository.findAll({
     where: { userId },
   });
   return bookPossession;
 }
 
-export async function getPossesedBooksByBookId(bookId: number) {
+async function getPossesedBooksByBookId(bookId: number) {
   const bookPossession = await BookPossessionRepository.findOne({
     where: { bookId, isReturned: false },
   });
   return bookPossession;
 }
 
-export async function getPossesedBooksByUserIdAndBookId(
+async function getPossesedBooksByUserIdAndBookId(
   userId: number,
-  bookId: number,
+  bookId: number
 ) {
   const bookPossession = await BookPossessionRepository.findAll({
     where: { userId, bookId },
@@ -26,7 +26,7 @@ export async function getPossesedBooksByUserIdAndBookId(
   return bookPossession.map((bp) => bp.dataValues);
 }
 
-export async function barrowBook(userId: number, bookId: number) {
+async function barrowBook(userId: number, bookId: number) {
   const isAlreadyPossesed = await getPossesedBooksByBookId(bookId);
   if (
     isAlreadyPossesed &&
@@ -44,14 +44,14 @@ export async function barrowBook(userId: number, bookId: number) {
   bookPossession.save();
 }
 
-export async function returnBook(userId: number, bookId: number) {
+async function returnBook(userId: number, bookId: number) {
   const bookPossesion = await getPossesedBooksByUserIdAndBookId(userId, bookId);
   if (!bookPossesion || bookPossesion.length <= 0) {
     throw new Error(ErrorCodes.DATA_NOT_EXISTS);
   }
   await BookPossessionRepository.update(
     { isReturned: true },
-    { where: { userId, bookId } },
+    { where: { userId, bookId } }
   );
 }
 

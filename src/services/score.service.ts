@@ -10,13 +10,6 @@ async function getAverageScoreByBookId(bookId: number) {
   return score;
 }
 
-async function getScoreByUserId(userId: number) {
-  const score = await ScoreRepository.findOne({
-    where: { userId },
-  });
-  return score;
-}
-
 async function getScoreByUserIdAndBookId(userId: number, bookId: number) {
   const score = await ScoreRepository.findOne({
     where: { userId, bookId },
@@ -39,7 +32,6 @@ async function updateScore(userId: number, bookId: number, score: number) {
 
 export default {
   getScoreByBookId: getAverageScoreByBookId,
-  getScoreByUserId,
   createScore,
   getScoreByUserIdAndBookId,
   updateScore,

@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 
 import routes from "./routes/index";
 import { initDB, syncDB } from "./utils/database";
-import { errorHandler } from "./middlewares/errorHandler";
+import { errorHandler } from "./middlewares/error-handler";
 import "dotenv/config";
 
 const app = express();

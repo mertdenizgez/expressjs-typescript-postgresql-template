@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
-import { ErrorCodes } from "./errorCodes";
+import { ErrorCodes } from "./error-codes";
 
 export async function errorHandler(
   err: any,

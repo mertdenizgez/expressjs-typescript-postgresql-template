@@ -1,8 +1,6 @@
 import { UserRepository } from "../models/user.repository";
-import BookPossesionService from "./book-possession.service";
-import ScoreService from "./score.service";
-import BookService from "./book.service";
-import { ErrorCodes } from "../middlewares/errorCodes";
+import { BookService, ScoreService, BookPossesionService } from "./index";
+import { ErrorCodes } from "../middlewares/error-codes";
 
 async function getUsers() {
   const users = await UserRepository.findAll();
@@ -79,7 +77,7 @@ async function returnBook(userId: number, bookId: number, score: number) {
 
   const isAlreadyScored = await ScoreService.getScoreByUserIdAndBookId(
     userId,
-    bookId,
+    bookId
   );
 
   if (isAlreadyScored?.dataValues) {
@@ -90,13 +88,10 @@ async function returnBook(userId: number, bookId: number, score: number) {
   await ScoreService.createScore(userId, bookId, score);
 }
 
-function getUserWithBorrowHistory() {}
-
 export default {
   getUsers,
   getUserById,
   createUser,
   borrowBook,
   returnBook,
-  getUserWithBorrowHistory,
 };

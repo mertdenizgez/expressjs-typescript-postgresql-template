@@ -1,4 +1,4 @@
-# Rest API for Gtr Record API
+# Rest API with Expressjs-Typescript-Postgresql
 
 A rest api application for retrieve data from Postgres by using Node.js, Express, Typescript and Sequelize.
 

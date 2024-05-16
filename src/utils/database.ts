@@ -1,10 +1,16 @@
 import { Sequelize } from "sequelize";
+import "dotenv/config";
 
-const dbObject = new Sequelize("api", "me", "password", {
-  host: "localhost",
-  dialect: "postgres",
-  logging: false,
-});
+const dbObject = new Sequelize(
+  process.env.DATABASE ?? "",
+  process.env.USERNAME ?? "",
+  process.env.PASSWORD ?? "",
+  {
+    host: process.env.HOST ?? "localhost",
+    dialect: "postgres",
+    logging: false,
+  }
+);
 
 export async function initDB() {
   try {

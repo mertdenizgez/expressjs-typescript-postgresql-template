@@ -4,15 +4,16 @@ import bodyParser from "body-parser";
 import routes from "./routes/index";
 import { initDB, syncDB } from "./utils/database";
 import { errorHandler } from "./middlewares/errorHandler";
+import "dotenv/config";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 app.use(routes);
 app.listen(port, () => {

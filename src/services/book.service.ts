@@ -8,7 +8,12 @@ async function createBook(bookname: string) {
 
 async function getBooks() {
   const books = await BookRepository.findAll();
-  return books;
+  return books.map((book) => {
+    return {
+      id: book.dataValues.id,
+      name: book.dataValues.name,
+    };
+  });
 }
 
 async function getBookById(bookId: number) {
@@ -24,7 +29,8 @@ async function getBookByIdWithAvgScore(bookId: number) {
   const score = await ScoreService.getScoreByBookId(bookId);
 
   return {
-    ...book.dataValues,
+    id: book.dataValues.id,
+    name: book.dataValues.name,
     score: score ? parseInt(score.dataValues.avgScore) : -1,
   };
 }

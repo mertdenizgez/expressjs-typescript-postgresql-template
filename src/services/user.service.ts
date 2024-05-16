@@ -4,7 +4,12 @@ import { ErrorCodes } from "../middlewares/error-codes";
 
 async function getUsers() {
   const users = await UserRepository.findAll();
-  return users;
+  return users.map((user) => {
+    return {
+      id: user.dataValues.id,
+      name: user.dataValues.name,
+    };
+  });
 }
 
 async function getUserById(userId: number) {
@@ -52,7 +57,7 @@ async function getUserById(userId: number) {
   }
 
   const books = { past: pastBooks, present: presentBooks };
-  return { ...user.dataValues, books };
+  return { id: user.dataValues.id, name: user.dataValues.name, books };
 }
 
 async function createUser(name: string) {

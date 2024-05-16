@@ -2,7 +2,6 @@ import httpStatus from "http-status";
 import { Request, Response, NextFunction } from "express";
 import { ErrorCodes } from "./errorCodes";
 
-// @ts-ignore
 export async function errorHandler(
   err: any,
   _req: Request,

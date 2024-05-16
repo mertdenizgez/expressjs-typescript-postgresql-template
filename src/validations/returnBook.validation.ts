@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const returnBookSchema = {
   body: Joi.object().keys({
-    score: Joi.number().required(),
+    score: Joi.number().min(0).max(10).required(),
   }),
 };
 

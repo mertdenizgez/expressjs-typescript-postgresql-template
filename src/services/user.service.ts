@@ -28,7 +28,17 @@ async function getUserById(userId: number) {
   const presentBooks = [];
   for (const borrowedBook of borrowedBooks) {
     const bookId = borrowedBook.dataValues.bookId;
+
+    if (!bookId) {
+      continue;
+    }
+
     const book = await BookService.getBookById(bookId);
+
+    if (!book || !book.dataValues) {
+      continue;
+    }
+
     const score = await ScoreService.getScoreByUserIdAndBookId(userId, bookId);
 
     if (borrowedBook.dataValues.isReturned) {

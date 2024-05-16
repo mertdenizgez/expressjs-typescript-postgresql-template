@@ -36,13 +36,7 @@ async function borrowBook(request: Request, response: Response) {
 async function returnBook(request: Request, response: Response) {
   const { userId, bookId } = request.params;
   const { score } = request.body;
-  try {
-    await userService.returnBook(parseInt(userId), parseInt(bookId), score);
-  } catch (error) {
-    if (error.message === "There is no record for this query") {
-      return response.status(400).send("Bad request");
-    }
-  }
+  await userService.returnBook(parseInt(userId), parseInt(bookId), score);
   return response.status(200).send();
 }
 

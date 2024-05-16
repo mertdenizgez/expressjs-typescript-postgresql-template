@@ -19,9 +19,9 @@ app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
 
+app.use(errorHandler);
+
 initDB();
 syncDB();
-
-app.use(errorHandler);
 
 export default app;

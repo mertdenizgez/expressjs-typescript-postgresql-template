@@ -8,6 +8,13 @@ export async function getPossesedBooksByUserId(userId: number) {
   return bookPossession;
 }
 
+export async function getPossesedBooksByBookId(bookId: number) {
+  const bookPossession = await BookPossessionRepository.findOne({
+    where: { bookId, isReturned: false },
+  });
+  return bookPossession;
+}
+
 export async function getPossesedBooksByUserIdAndBookId(
   userId: number,
   bookId: number,
@@ -20,14 +27,11 @@ export async function getPossesedBooksByUserIdAndBookId(
 }
 
 export async function barrowBook(userId: number, bookId: number) {
-  const isAlreadyPossesed = await getPossesedBooksByUserIdAndBookId(
-    userId,
-    bookId,
-  );
+  const isAlreadyPossesed = await getPossesedBooksByBookId(bookId);
   if (
     isAlreadyPossesed &&
-    isAlreadyPossesed.length > 0 &&
-    !isAlreadyPossesed[0].isReturned
+    isAlreadyPossesed.dataValues &&
+    !isAlreadyPossesed.dataValues.isReturned
   ) {
     throw new Error(ErrorCodes.ALREADY_BARROWED);
   }
@@ -55,4 +59,5 @@ export default {
   getPossesedBooksByUserId,
   barrowBook,
   returnBook,
+  getPossesedBooksByBookId,
 };

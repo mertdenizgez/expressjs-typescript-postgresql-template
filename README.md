@@ -2,6 +2,10 @@
 
 A rest api application for retrieve data from Postgres by using Node.js, Express, and Sequelize.
 
+Mert Denizgez
+
+mertdenizgez@gmail.com
+
 ## Quick Start
 
 Install the dependencies:
@@ -25,9 +29,9 @@ Example environment variables that `.env` file should inclue
 PORT=3000
 
 # Database config
-DATABASE='api'
-DB_USERNAME='me'
-DB_PASSWORD='password'
+DATABASE='DBNAME'
+DB_USERNAME='USERNAME'
+DB_PASSWORD='PASSWORD'
 DB_HOST='localhost'
 ```
 
